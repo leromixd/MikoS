@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MikoS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f5f5f0;
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .header {
+            padding: 32px 0 24px;
+            border-bottom: 1px solid #e0e0d8;
+            margin-bottom: 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: #000;
+        }
+        .logo span {
+            font-weight: 300;
+            color: #888;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #000;
+        }
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eaeae2;
+            padding-bottom: 16px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            padding: 6px 0;
+            font-size: 0.9rem;
+            font-weight: 450;
+            color: #666;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-right: 24px;
+        }
+
+        .filter-btn.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px 24px;
+            margin-bottom: 80px;
+        }
+
+        .product-card {
+            background: #fff;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .image-wrapper {
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            background: #f0f0ea;
+            margin-bottom: 16px;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.02);
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+            margin-bottom: 6px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: #5a5a5a;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .tg-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .tg-btn i {
+            font-size: 1rem;
+        }
+
+        .tg-btn:hover {
+            background: #2c2c2c;
+        }
+        .footer {
+            border-top: 1px solid #e0e0d8;
+            padding: 40px 0 48px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.8rem;
+            color: #6c6c6c;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #6c6c6c;
+        }
+
+        .footer-links a:hover {
+            color: #000;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 0 16px;
+            }
+            .header {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .filters {
+                gap: 8px;
+            }
+            .filter-btn {
+                margin-right: 12px;
+            }
+            .products-grid {
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">MikoS<span> shop</span></div>
+        <div class="nav-links">
+            <a href="#">Каталог</a>
+            <a href="https://t.me/MisoShopbot" target="_blank">Telegram</a>
+        </div>
+    </div>
+    <div class="filters" id="filterBar">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="tops">Верх</button>
+        <button class="filter-btn" data-filter="bottoms">Низ</button>
+        <button class="filter-btn" data-filter="outerwear">Верхняя одежда</button>
+        <button class="filter-btn" data-filter="accessories">Аксессуары</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+    <div class="footer">
+        <div>© 2026 MikoS - шоп, созданный для индивидуального проэкта</div>
+        <div class="footer-links">
+            <a href="https://t.me/MisoShopbot">Telegram-бот</a>
+            <a href="https://t.me/MisoShopbot">Доставка</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const products = [
+        {
+            id: 2,
+            name: "Aferist® T-Shirt",
+            desc: "Aferist® Classic Black T-Shirt",
+            price: "1 119 ₽",
+            img: "https://static.tildacdn.com/tild6531-3938-4432-b934-326430653630/1.png",
+            category: "tops"
+        },
+        {
+            id: 4,
+            name: "WILD TRIBE",
+            desc: "WILD TRIBE BLACK ZIP-HOODIE",
+            price: "2 799 ₽",
+            img: "https://tse3.mm.bing.net/th/id/OIP.aNB-VdMhizagCZ1De1cPXwHaHa?cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3",
+            category: "tops"
+        },
+        {
+            id: 6,
+            name: "Puffer",
+            desc: "Light Puffer V3 White",
+            price: "4 229 ₽",
+            img: "https://static.tildacdn.com/stor6261-6465-4134-b933-646561366333/-/resize/504x/89139871.jpg",
+            category: "outerwear"
+        },
+        {
+            id: 8,
+            name: "Aferist Hoodie",
+            desc: "Aferist Hoodie Halloween",
+            price: "2 899 ₽",
+            img: "https://static.tildacdn.com/stor6366-3764-4164-b638-633831656338/-/resize/504x/19800740.jpg",
+            category: "tops"
+        }
+    ];
+    function renderProducts(filter = "all") {
+        const grid = document.getElementById("productsGrid");
+        grid.innerHTML = "";
+        const filtered = filter === "all" ? products : products.filter(p => p.category === filter);
+        
+        filtered.forEach(p => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            const tgLink = `https://t.me/MisoShopbot`;
+            card.innerHTML = `
+                <div class="image-wrapper">
+                    <img class="product-img" src="${p.img}" alt="${p.name}" loading="lazy">
+                </div>
+                <div class="product-title">${p.name}</div>
+                <div class="product-desc">${p.desc}</div>
+                <div class="product-price">${p.price}</div>
+                <a href="${tgLink}" target="_blank" class="tg-btn">
+                    <i class="fab fa-telegram"></i> Купить в Telegram
+                </a>
+            `;
+            grid.appendChild(card);
+        });
+    }
+    const btns = document.querySelectorAll(".filter-btn");
+    btns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            btns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const filter = btn.getAttribute("data-filter");
+            renderProducts(filter);
+        });
+    });
+
+    renderProducts("all");
+</script>
+</body>
+</html>
